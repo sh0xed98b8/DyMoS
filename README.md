@@ -1,18 +1,12 @@
 # Rebalancing Reference Frame Dominance to Improve Motion in Image-to-Video Models
 
-Official code for the paper
+This repository contains the official PyTorch implementation of
 **"Rebalancing Reference Frame Dominance to Improve Motion in Image-to-Video Models."**
 
-DyMoS is a **training-free** inference-time intervention that biases the
-self-attention logits of pretrained image-to-video diffusion transformers to
-weaken the *reference-frame attractor*. During the first few denoising steps,
-attention from later frames toward the conditioning (first) frame is reduced
-by a constant log-bias `gamma`. This restores motion while preserving subject
-identity and the conditioning image.
+DyMoS is a **training-free** inference-time method that restores motion while preserving subject identity and the conditioning image in image-to-video models. It biases the self-attention logits of pretrained image-to-video diffusion transformers to weaken the *reference-frame dominance*: during the first few denoising steps, attention from later frames toward the conditioning (first) frame is reduced by a constant log-bias.
 
-This release contains the Wan 2.2 reference implementation
-(`dymos_wan22.py`). Implementations for other backbones
-(CogVideoX-5B, Wan 2.1, HunyuanVideo-1.5) will be released later.
+We release our implementation on Wan 2.2
+(`dymos_wan22.py`). Implementations for other backbones (Wan 2.1, CogVideoX-5B, HunyuanVideo-1.5) will be released soon.
 
 ## Layout
 
@@ -48,17 +42,6 @@ Pillow, numpy
 Download the Wan 2.2 I2V-A14B checkpoint and pass its path via
 `--ckpt_dir`.
 
-## Paper configuration
-
-DyMoS introduces two hyperparameters: the bias strength `gamma` and the
-number of early steps to which the bias is applied
-(`K = apply_until_step`). With `T = 40` total denoising steps for
-Wan 2.2, the paper uses:
-
-| Backbone | T  | gamma | K | lambda = K / T |
-|---|---|---|---|---|
-| Wan 2.2  | 40 | 0.6   | 8 | 0.20 |
-
 ## Usage
 
 Single-prompt generation:
@@ -86,3 +69,19 @@ python dymos_wan22.py \
     --offload_model True --convert_model_dtype --t5_cpu \
     --out_dir output/wan22
 ```
+
+## Arguments
+
+| Argument | Type | Default | Description |
+|---|---|---|---|
+| `--ckpt_dir` | str | required | Path to the Wan 2.2 I2V-A14B model checkpoint directory. |
+| `--size` | str | `832*480` | Output video resolution in `W*H` format. |
+| `--image` | str | — | Path to the conditioning image (single-prompt mode). |
+| `--prompt` | str | — | Text prompt describing the desired video content (single-prompt mode). |
+| `--prompt_file` | str | — | Path to a batch prompt file; each line must be `image_path\|\|prompt`. |
+| `--gamma` | float | `0.6` | DyMoS bias strength. Higher values reduce reference-frame dominance more aggressively. |
+| `--apply_until_step` | int | `8` | Number of early denoising steps (`K`) to apply the bias. |
+| `--offload_model` | bool | `False` | Offload model weights to CPU between steps to reduce peak GPU memory. |
+| `--convert_model_dtype` | flag | — | Convert model weights to BF16 for lower memory usage. |
+| `--t5_cpu` | flag | — | Run the T5 text encoder on CPU to save GPU memory. |
+| `--out_dir` | str | `output` | Directory where generated videos are saved. |

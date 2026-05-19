@@ -1,0 +1,4 @@
+first_frames/cyclists_burning_man.png||Cyclists cycling at Burning Man festival
+first_frames/boy_jumping_mud.jpg||A young boy is jumping in the mud
+first_frames/man_mountain_bike.jpg||A man riding a mountain bike on top of a rocky hill
+first_frames/wet_dog.png||A wet vira-lata dog close up portrait after playing in a red, yellow and orange colored splash park, water droplets on its happy face.

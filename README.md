@@ -8,22 +8,6 @@ DyMoS is a **training-free** inference-time method that restores motion while pr
 We release our implementation on Wan 2.2
 (`dymos_wan22.py`). Implementations for other backbones (Wan 2.1, CogVideoX-5B, HunyuanVideo-1.5) will be released soon.
 
-## Layout
-
-```
-DyMoS/
-├── dymos_wan22.py
-├── prompts/
-│   └── sample.txt              
-├── first_frames/
-│   ├── cyclists_burning_man.png
-│   ├── boy_jumping_mud.jpg
-│   ├── man_mountain_bike.jpg
-│   └── wet_dog.png
-├── LICENSE
-└── README.md
-```
-
 ## Environment
 
 `dymos_wan22.py` wraps the official Wan 2.2 I2V-A14B inference pipeline.

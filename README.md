@@ -1,5 +1,7 @@
 # Rebalancing Reference Frame Dominance to Improve Motion in Image-to-Video Models
 
+![DyMoS teaser](dymos_teaser_hires.gif)
+
 This repository contains the official PyTorch implementation of
 **"Rebalancing Reference Frame Dominance to Improve Motion in Image-to-Video Models."**
 
